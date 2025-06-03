@@ -11,6 +11,7 @@ using namespace std;
 int updateInterval;
 bool fullLog;
 
+int run();
 string exportAsText();
 string exportAsCSV();
 bool update(CpuMonitor& cpuMon, MemoryMonitor& memMon, ProcessMonitor& procMon);
