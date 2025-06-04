@@ -7,16 +7,16 @@
 using namespace std;
 
 class ProcessMonitor {
-private:
+protected:
     int *PID;
-    struct AP{
-        string user;
+    struct AP {
         float cpu ;
         float memory;
         struct {
             string startTime;
             string duration;
         } time;
+        string user;
         string pathName;
     };
     vector<AP> ap;
@@ -27,6 +27,9 @@ public:
     bool update();
     AP getProcess(int index);
     string getProcessInfo();
+    string getProcessRaw();
+
+    string getALLProcessInfo();
     
     ~ProcessMonitor();
 };
