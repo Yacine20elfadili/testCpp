@@ -7,7 +7,7 @@
 using namespace std;
 
 class MemoryMonitor {
-private:
+protected:
     struct RAM{
         size_t totalMemInMb;
         float usage;
@@ -16,17 +16,25 @@ private:
         float usageSwp;
         float freeSwp;
     }RAM;
-    vector<string> memlnfo ;
+    vector<string> memInfo ;
 public:
     MemoryMonitor();
     
     bool update();
+
     unsigned long long getTotalMemory();
     unsigned long long getFreeMemory();
-    unsigned long long getTotalSwap();
-    unsigned long long getUsedSwap();
+    unsigned long long getUsedMemory();
+
     double getMemoryUsagePercentage();
+
+    unsigned long long getTotalSwap();
+    unsigned long long getFreeSwap();
+    unsigned long long getUsedSwap();
+
     double getSwapUsagePercentage();
+
+    string getMemoryInfo();
 
     ~MemoryMonitor();
 };
