@@ -1,19 +1,19 @@
 #include <iostream>
 #include "SysMon.h"
 #include <cstring>
+#include <chrono>
+#include <thread>
 using namespace std;
 
-int updateInterval = 1000; // Default 1 second in milliseconds
-bool fullLog = false;
+SysMonitor sysMon;
 
 void displayHelp() {
-    cout << "SysMon-cpp - System Monitor" << endl;
-    cout << "Usage: ./sysmon [OPTIONS]" << endl;
-    cout << "Options:" << endl;
-    cout << "  --help                 Display this help message" << endl;
-    cout << "  --export <path>        Export data to specified file" << endl;
-    cout << "  --update-interval <ms> Set update interval in milliseconds" << endl;
-    cout << "  --full-log             Enable full logging" << endl;
+    cout << "==============Welcome to SYSMON-CPP !!!==============" << endl;
+    cout << "Utilisation : .\\tests\\sysmon [OPTIONS]" << endl;
+    cout << "Les options:" << endl;
+    cout << "  --help                  Affiche l'aide avec la liste des options disponibles." << endl;
+    cout << "  --export <path>         Exporte les donnees sous forme de fichier texte ou CSV." << endl;
+    cout << "  --update-interval <ms>  Definit l'intervalle de mise a jour des donnees en secondes." << endl;
 }
 
 void parseArguments(int argc, char* argv[]) {
@@ -23,65 +23,21 @@ void parseArguments(int argc, char* argv[]) {
             exit(0);
         }
         else if (strcmp(argv[i], "--update-interval") == 0 && i + 1 < argc) {
-            updateInterval = atoi(argv[++i]);
-        }
-        else if (strcmp(argv[i], "--full-log") == 0) {
-            fullLog = true;
+            sysMon.setUpdateInterval(atoi(argv[++i]));
         }
         else if (strcmp(argv[i], "--export") == 0) {
-            fullLog = true;
+            sysMon.exportAsText();
+            sysMon.exportAsCSV();
         }
     }
 }
+
 
 int main(int argc, char* argv[]) {
     parseArguments(argc, argv);
-
-    CpuMonitor cpuMonitor;
-    MemoryMonitor memoryMonitor;
-    ProcessMonitor processMonitor;
-
     
-    cout << "==============Welcome to SYSMON-CPP !!!==============" << endl;
-    cout << "Update interval: " << updateInterval << "ms" << endl;
+    cout << "Update interval: " << sysMon.getUpdateInterval() << "ms" << endl;
     cout << "Press Ctrl+C to exit" << endl << endl;
 
-    while (true){
-
-    }
-
-    return 0;
-}
-
-string exportAsText() {
-    return "";
-}
-
-string exportAsCSV() {
-    return "";
-}
-
-bool update(CpuMonitor& cpuMon, MemoryMonitor& memMon, ProcessMonitor& procMon) {
-
-    bool cpuUpdate = cpuMon.update();
-    bool memUpdate = memMon.update();
-    bool procUpdate = procMon.update();
-    
-    return cpuUpdate && memUpdate && procUpdate;
-}
-
-string getTime() {
-    time_t now = time(0);
-    char* timeStr = ctime(&now);
-    string result(timeStr);
-    result.pop_back(); // Remove newline
-    return result;
-}
-
-string getInfo(string type) {
-    return "";
-}
-
-void log() {
-    cout << "Logging system information..." << endl;
+    return sysMon.run();
 }
